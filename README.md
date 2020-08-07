@@ -1,2 +1,3 @@
 # text_adventure_game
-Learning to code with Python project making a text based adventure game that utilizes randomness to make unique experiences.
+This project is my 'learning to code with Python' -project.
+Aim is to make a text based adventure game that uses randomness to make unique playing experience every time. The goal is in learning not in making an amazing game.
