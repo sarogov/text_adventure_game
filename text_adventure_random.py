@@ -21,7 +21,14 @@ looks = ['light navy blue','very dark green', 'bright yellow','screaming pink',
     'murky, almost blood colored red','very, very black','plain boring brown',
     'misty grey', ' grey and full of annoying mosquitos']
 
+# This list contains the items that the player has with him.
+inventory = ['a key', 'a gun', 'a candy bar']
 
+#Here is a general function used for inventory.
+def contest_of_invetory():
+    """This prints the contest of inventory."""
+    for r in inventory:
+        print("\t", r)
 
 ###############################################################################
 #  ROOMS
@@ -53,7 +60,19 @@ class Room():
 
 class Start_Room(Room):
     """This room is the room where game starts."""
-    pass
+
+    def play(self):
+        print("\n    " + "*"*65 + "\n")
+        print(f"    You are in a room that is {self.look}.")
+        print("    You have a bag labelled use only once with you. ")
+        print("    The bag contains the following items:")
+        contest_of_invetory()
+        print("    There is only one door at the room. Nothing else.")
+        print("    No hints or what so ever about where are you or what to do.")
+        print("    You aproach the door and try if you can open it.")
+        print("    The door is open and you go throught it.")
+        input("    >")
+        return True
 
 class Monster_Room(Room):
     """This room contains a monster. The monster has a description and
