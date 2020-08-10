@@ -24,11 +24,19 @@ looks = ['light navy blue','very dark green', 'bright yellow','screaming pink',
 # This list contains the items that the player has with him.
 inventory = ['a key', 'a gun', 'a candy bar']
 
-#Here is a general function used for inventory.
+# Here is two general functions used for inventory.
 def contest_of_invetory():
     """This prints the contest of inventory."""
     for r in inventory:
         print("\t", r)
+
+def use_item(item):
+    """This checks if item is in the inventory and then removes it."""
+    if item in inventory:
+        inventory.remove(item)
+        return True
+    else:
+        return False
 
 ###############################################################################
 #  ROOMS
@@ -57,6 +65,17 @@ class Room():
         sleep(1)
         return True
 
+    def dead(self):
+        """This is the sadest ending of the game."""
+        print("    You died.")
+        sleep(3)
+        print("    Sorry.")
+        sleep(2)
+        print("            GAME OVER\n")
+        print("    "+"*"*40+"\n\n")
+        exit(0) # This ends the program.
+
+
 
 class Start_Room(Room):
     """This room is the room where game starts."""
@@ -78,7 +97,106 @@ class Monster_Room(Room):
     """This room contains a monster. The monster has a description and
     sweet_tooth attributes. Sweet_tooth attribute decides if the monster
     can be passed by giving it a sweet."""
-    pass
+
+    def __init__(self, description):
+        super().__init__()
+        self.sweet_tooth = random.choice([True, False])
+        self.description = description
+
+    def play(self):
+        """To clear the room the player has to face the monster. There are
+        several options what to do."""
+
+        #Descrition of the room and its contests.
+        super().play()
+        print(f"    In the middle of the room stands a {self.description} monster")
+        print("    staring at you. You see a door behind the monster, but you")
+        print("    wonder how you pass this monster.\n")
+
+
+        # Choosing what to do. While loop keeps asking until player aswers so
+        # that the game can go forward.
+        while True:
+            choice = input("    What will you do? " )
+
+            #If player wants to use the gun. Gun is only once usable and it
+            # hits with 60% propability.
+            if "gun" in choice:
+                if use_item("a gun"):
+                    print("\n    You aim the monster with your gun and shoot.")
+                    sleep(3)
+
+                    if random.randint(1,10)>3: #Here is defined the probability for the gun to hit.
+                        print(f"\n    The bullet hits the monster and the {self.description} monster dies.")
+                        print("\n    This is sad.")
+                        sleep(3)
+                        print("\n\n    After using the gun. Let check the bag.")
+                        print("    Now there are these items:")
+                        contest_of_invetory()
+                        sleep(3)
+                        break # This ends the while loop.
+                    else:
+                        print(f"\n    The bullet doesn't hit the monster.")
+                        sleep(1)
+                        print("    The monster gets angry and comes to you. He takes grip on you and eats you.")
+                        sleep(2)
+                        self.dead()
+                else:
+                    print("    You don't have a gun anymore.\n")
+
+
+            #Player can offer sweet to the monster.
+            elif "candy bar" in choice:
+                if use_item("a candy bar"):
+                    print("    You offer a candy bar to the monster.")
+                    if self.sweet_tooth:
+                        print("    The monster likes the candy bar and takes it.")
+                        print("    He moves out of the way so that you can go freely.")
+                        break # This ends the while loop.
+                    else:
+                        print("    The monster takes your candy bar and throws it away.")
+                        print("    The monster doesn't like the candy bar.")
+
+
+                    print("\n\n    After giving away the candy bar. Let's check the bag.")
+                    print("    Now there are these items:")
+                    contest_of_invetory()
+                    sleep(3)
+
+
+                else:
+                    print("    You don't have a candy bar anymore.\n")
+
+            # Here is the choice of hitting the moster. There is different outcomes
+            # based on those random functions.
+            elif "hit" in choice:
+                if random.randint(1,10)>5:
+                    print("    You hit the monster and the monster gets out of the way.")
+                    break # This ends the while loop.
+                elif random.randint(1,10) == 1:
+                    print("    You try to hit the monster but he gets annoyed about you.")
+                    print("    He comes and grabs you and eats you.")
+                    self.dead()
+                else:
+                    print("    You try to hit the monster but he manages block it.")
+                    print("    He still stands on the way.\n")
+                    sleep(1)
+
+
+            #Here is the escape or flee choice for the player.
+            elif "flee" in choice or "escape" in choice or "run" in choice:
+                print("    You run away so fast that you return to the very first room.\n\n")
+                sleep(3)
+                return False # This finishes the execution of the play function. Returning False gets player bac to the first room.
+
+            else:
+                print("    The choices to do are the following: escape, offer")
+                print("    something sweet or use violence.")
+
+        print("    Now you can go to the next door. You go there and open it.")
+        input("    > ")
+        return True
+
 
 class Problem_Room(Room):
     """This room has a locked room and the player has to solve a math problem
@@ -113,11 +231,12 @@ class Exit_Room(Room):
 # Here is the setup for the game. The game can be customized here.
 ###############################################################################
 start = Start_Room()
-room1 = Monster_Room()
+room1 = Monster_Room("big eyed bright green Gulabu")
 room2 = Problem_Room()
-room3 = Exit_Room()
+room3 = Monster_Room("tiny, tiny pink but big teeth having")
+room4 = Exit_Room()
 
-rooms = [room1,room2,room3]
+rooms = [room1,room2,room3,room4]
 
 
 ###############################################################################
