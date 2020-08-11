@@ -77,6 +77,7 @@ class Room():
 
 
 
+
 class Start_Room(Room):
     """This room is the room where game starts."""
 
@@ -92,6 +93,9 @@ class Start_Room(Room):
         print("    The door is open and you go throught it.")
         input("    >")
         return True
+
+
+
 
 class Monster_Room(Room):
     """This room contains a monster. The monster has a description and
@@ -198,10 +202,15 @@ class Monster_Room(Room):
         return True
 
 
+
+
 class Problem_Room(Room):
     """This room has a locked room and the player has to solve a math problem
     to proceed."""
     pass
+
+
+
 
 class Exit_Room(Room):
     """The room that ends the game if the player has not died before."""
@@ -224,6 +233,7 @@ class Exit_Room(Room):
         print("    " + "*"*75 + "\n\n")
         exit(0)
         return(True)
+
 
 
 
