@@ -9,6 +9,7 @@
 import random
 from sys import exit
 from time import sleep
+from operator import add, sub, mul
 
 
 ###############################################################################
@@ -64,6 +65,15 @@ class Room():
         print("    There is a one door at the other side of the room." )
         sleep(1)
         return True
+
+    def use_key(self):
+        """Using the key to open the door to the next room."""
+        if use_item("key"):
+            print("    You take the key out of your bag and try it to the lock.")
+            print("    The lock opens.")
+            return True
+        else:
+            return False
 
     def dead(self):
         """This is the sadest ending of the game."""
@@ -207,8 +217,57 @@ class Monster_Room(Room):
 class Problem_Room(Room):
     """This room has a locked room and the player has to solve a math problem
     to proceed."""
-    pass
 
+    def play(self):
+        super().play()
+        print("    You go to look the door at the other end of the room.")
+        print("    The door is locked.")
+        print("    The lock has a math problem attached to it. Solving it would open the lock.")
+        print("    But you have only three tries. If you fail you return to the beginning.")
+        choice = input("    What will you do? ")
+
+        i = 1
+        while i <= 3:
+            if "key" in choice:
+                if self.use_key():
+                    print("    You can now go throught the door.")
+                    input("    >")
+                    answer = True
+                    break
+                else:
+                    print("    You don't have a key anymore.")
+                    choice = input("    You need to solve the math problem.")
+                    continue
+            else:
+                answer = self.math_problem()
+                if answer:
+                    break
+                else:
+                    if i == 3:
+                        print("    This was the last try. Now you are taken back to the beginning.")
+                        sleep(2)
+                    i +=1
+                    continue
+
+        return answer
+
+
+    def math_problem(self):
+        """This creates a random simple math question and tests if the answer is right."""
+        operators = {"+": add, "-": sub, "*": mul}
+        keys = list(operators)
+        operator = random.choice(keys)
+        a = random.randint(1,100)
+        b = random.randint(1,100)
+        answer = int(input(f"\n\t What is {a} {operator} {b}? "))
+        if answer == operators[operator](a,b):
+            print("\n    That is correct. You can go throught the door.")
+            sleep(2)
+            return True
+        else:
+            print("\n    That is not right.")
+            sleep(1)
+            return False
 
 
 
