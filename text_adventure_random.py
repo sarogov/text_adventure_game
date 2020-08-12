@@ -22,6 +22,13 @@ looks = ['light navy blue','very dark green', 'bright yellow','screaming pink',
     'murky, almost blood colored red','very, very black','plain boring brown',
     'misty grey', ' grey and full of annoying mosquitos']
 
+# The following list contains riddles and their answers.
+riddles = [
+    ["What has to be broken before you use it?", "egg"],
+    ["I’m tall when I’m young, and I’m short when I’m old. What am I?", "candle"],
+    ["The more of this there is, the less you see. What is it?", "darkness"]
+]
+
 # This list contains the items that the player has with him.
 inventory = ['a key', 'a gun', 'a candy bar']
 
@@ -68,7 +75,7 @@ class Room():
 
     def use_key(self):
         """Using the key to open the door to the next room."""
-        if use_item("key"):
+        if use_item("a key"):
             print("    You take the key out of your bag and try it to the lock.")
             print("    The lock opens.")
             return True
@@ -271,6 +278,25 @@ class Problem_Room(Room):
 
 
 
+class Riddle_Room(Room):
+    """This room contains a wizard that asks a riddle. Riddle is randomly
+    chosen from the riddles list. Locked door can also be opened with key."""
+
+    def __init__(self):
+        super().__init__()
+        self.riddle = random.choice(riddles)
+
+    def play(self):
+        super().play()
+        print("    In the middle of the room stands an old wizard.")
+        print("    He says: 'The door is locked and I open it if you can")
+        print("    answer to my question. And if you answer three times")
+        print("    wrong, then you go back to the beginning.'\n")
+        print("    '" + self.riddle[0]+"'\n")        
+
+
+
+
 class Exit_Room(Room):
     """The room that ends the game if the player has not died before."""
 
@@ -303,9 +329,10 @@ start = Start_Room()
 room1 = Monster_Room("big eyed bright green Gulabu")
 room2 = Problem_Room()
 room3 = Monster_Room("tiny, tiny pink but big teeth having")
-room4 = Exit_Room()
+room4 = Riddle_Room()
+room5 = Exit_Room()
 
-rooms = [room1,room2,room3,room4]
+rooms = [room1,room2,room3,room4,room5]
 
 
 ###############################################################################
