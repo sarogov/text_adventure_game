@@ -4,7 +4,11 @@
 # riddle rooms, locked door rooms and gold room. It uses random library
 # to make the game different each time it is played.
 ###############################################################################
-
+# Issues to fix:
+# 1. If inventory is empty, print that the bag is empty.
+# 2. Check that the player needs to hit enter every time when opening a door.
+# 3. Using candy bar with monster doen't work correctly.
+# 4. Add a check that in math_problem the user input is an integer.
 
 import random
 from sys import exit
@@ -292,8 +296,47 @@ class Riddle_Room(Room):
         print("    He says: 'The door is locked and I open it if you can")
         print("    answer to my question. And if you answer three times")
         print("    wrong, then you go back to the beginning.'\n")
-        print("    '" + self.riddle[0]+"'\n")        
+        choice = input("    What will you do? ")
 
+        i = 1
+        while i <=3:
+            if "key" in choice:
+                if self.use_key():
+                    print("    You can now go throught the door.")
+                    input("    >")
+                    correct = True
+                    break
+                else:
+                    print("    You don't have a key anymore.")
+                    choice = input("    You need to solve the riddle.")
+                    continue
+            else:
+                if i == 1:
+                    print("\n    You chosed to solve the riddle.")
+                correct = self.riddle_solving()
+                if correct:
+                    break
+                else:
+                    if i < 3:
+                        print(f"    You still have {3-i} tries.")
+                    i+=1
+                    continue
+
+        return correct
+
+
+    def riddle_solving(self):
+        """This tests the riddle."""
+        print("\n    '" + self.riddle[0]+"'\n")
+        answer = input("    >")
+        if self.riddle[1] in answer:
+            print("\n    That is correct. You can go throught the door.")
+            sleep(2)
+            return True
+        else:
+            print("\n    That is not right.")
+            sleep(1)
+            return False
 
 
 
