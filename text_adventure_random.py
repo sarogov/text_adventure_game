@@ -338,6 +338,30 @@ class Riddle_Room(Room):
             sleep(1)
             return False
 
+class Gold_Room(Room):
+    """This room makes player to choose how much gold to take. If too much is taken then back to beginning."""
+
+    def play(self):
+        super().play()
+        print("    In the middle of this room is a pile of gold coins.")
+        print("    How many you want to take (max 100)?")
+        amount = int(input("    >"))
+        sleep(1)
+        if amount > random.randint(1,100):
+            print("    That is too much. The trap door opens and you go back to the")
+            print("    room where you started.\n")
+            sleep(3)
+            return False
+        else:
+            print("    You weren't too greedy. Good. You can keep the gold.")
+            inventory.append(str(amount)+" gold coins")
+            sleep(1)
+            print("    Now you have in your bag:")
+            contest_of_invetory()
+            print("    You go to the door at the other end of the room and open it.")
+            input('    >')
+            return True
+
 
 
 class Exit_Room(Room):
@@ -373,9 +397,10 @@ room1 = Monster_Room("big eyed bright green Gulabu")
 room2 = Problem_Room()
 room3 = Monster_Room("tiny, tiny pink but big teeth having")
 room4 = Riddle_Room()
-room5 = Exit_Room()
+room5 = Gold_Room()
+room6 = Exit_Room()
 
-rooms = [room1,room2,room3,room4,room5]
+rooms = [room1,room2,room3,room4,room5,room6]
 
 
 ###############################################################################
