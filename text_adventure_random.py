@@ -171,21 +171,27 @@ class Monster_Room(Room):
 
 
             #Player can offer sweet to the monster.
-            elif "candy bar" in choice:
+            elif "candy" in choice:
                 if use_item("a candy bar"):
-                    print("    You offer a candy bar to the monster.")
+                    print("\n    You offer a candy bar to the monster.")
                     if self.sweet_tooth:
                         print("    The monster likes the candy bar and takes it.")
                         print("    He moves out of the way so that you can go freely.")
+                        sleep(2)
+                        print("\n\n    After giving away the candy bar. Let's check the bag.")
+                        print("    Now there are these items:")
+                        contest_of_invetory()
                         break # This ends the while loop.
                     else:
                         print("    The monster takes your candy bar and throws it away.")
                         print("    The monster doesn't like the candy bar.")
+                        print("    He still stands on the way.")
+                        sleep(2)
+                        print("\n\n    After giving away the candy bar. Let's check the bag.")
+                        print("    Now there are these items:")
+                        contest_of_invetory()
 
-
-                    print("\n\n    After giving away the candy bar. Let's check the bag.")
-                    print("    Now there are these items:")
-                    contest_of_invetory()
+                    print("\n")
                     sleep(3)
 
 
@@ -218,7 +224,7 @@ class Monster_Room(Room):
                 print("    The choices to do are the following: escape, offer")
                 print("    something sweet or use violence.")
 
-        print("    Now you can go to the next door. You go there and open it.")
+        print("\n    You walk to the next door and open it.\n")
         input("    > ")
         return True
 
@@ -345,7 +351,7 @@ class Gold_Room(Room):
         super().play()
         print("    In the middle of this room is a pile of gold coins.")
         print("    How many you want to take (max 100)?")
-        amount = int(input("    >"))
+        amount = int(input("    > "))
         sleep(1)
         if amount > random.randint(1,100):
             print("    That is too much. The trap door opens and you go back to the")
@@ -400,7 +406,7 @@ room4 = Riddle_Room()
 room5 = Gold_Room()
 room6 = Exit_Room()
 
-rooms = [room1,room2,room3,room4,room5,room6]
+rooms = [room1,room2,room3,room6]
 
 
 ###############################################################################
