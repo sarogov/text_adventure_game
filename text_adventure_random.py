@@ -39,8 +39,11 @@ inventory = ['a key', 'a gun', 'a candy bar']
 # Here is two general functions used for inventory.
 def contest_of_invetory():
     """This prints the contest of inventory."""
-    for r in inventory:
-        print("\t", r)
+    if len(inventory) > 0:
+        for r in inventory:
+            print("\t", r)
+    else:
+        print("    The bag is empty.")
 
 def use_item(item):
     """This checks if item is in the inventory and then removes it."""
